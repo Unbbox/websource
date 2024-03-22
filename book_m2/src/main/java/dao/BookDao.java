@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,7 +46,6 @@ public class BookDao {
     // 3. CRUD
     public List<BookDto> getList() {
         List<BookDto> list = new ArrayList<>();
-
         con = getConnection();
         String sql = "select * from booktbl order by code desc";
         try {
@@ -67,7 +65,6 @@ public class BookDao {
         } finally {
             close(con, pstmt, rs);
         }
-
         return list;
     }
 
@@ -75,10 +72,8 @@ public class BookDao {
         BookDto dto = null;
         con = getConnection();
         String sql = "select * from booktbl where code=?";
-
         try {
             pstmt = con.prepareStatement(sql);
-            // ? 해결
             pstmt.setInt(1, code);
             rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -94,7 +89,6 @@ public class BookDao {
         } finally {
             close(con, pstmt, rs);
         }
-
         return dto;
     }
 
@@ -111,6 +105,7 @@ public class BookDao {
             pstmt.setInt(2, updateDto.getCode());
 
             result = pstmt.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -137,11 +132,13 @@ public class BookDao {
             pstmt.setString(5, insertDto.getDescription());
 
             result = pstmt.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(con, pstmt, rs);
+            close(con, pstmt);
         }
+
         return result;
     }
 
@@ -216,10 +213,10 @@ public class BookDao {
 
     public void close(Connection con, PreparedStatement pstmt) {
         try {
-            if (con != null)
-                con.close();
             if (pstmt != null)
                 pstmt.close();
+            if (con != null)
+                con.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

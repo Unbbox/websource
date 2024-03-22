@@ -54,9 +54,9 @@ public class TodoServlet extends HttpServlet {
             // rd.forward(req, res);
             action = new TodoModifyAction("/view/modify.jsp");
         } else if (cmd.equals("/update.do")) {
-            action = new TodoUpdateAction("/list.do");
+            action = new TodoUpdateAction("/view/list.jsp");
         } else if (cmd.equals("/delete.do")) {
-            action = new TodoDeleteAction("/list.do");
+            action = new TodoDeleteAction("/view/list.jsp");
         } else if (cmd.equals("/create.do")) {
             action = new TodoCreateAction("/list.do");
         }

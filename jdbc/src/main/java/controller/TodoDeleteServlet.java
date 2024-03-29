@@ -24,7 +24,7 @@ public class TodoDeleteServlet extends HttpServlet {
 
         // DB 작업
         TodoDao dao = new TodoDao();
-        int result = dao.delete(no);
+        // int result = dao.delete(no);
 
         // 화면이동
         res.sendRedirect("list");

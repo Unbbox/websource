@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%-- pom.xml jstl 태그 라이브러리 작성 => jsp에서 자바코드를 태그처럼 사용하기 위한 몇가지 방법 제공 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib  uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
   <head>
@@ -221,7 +220,7 @@
             <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
               <ul class="nav flex-column">
                 <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href='<c:url value="/list" />'>
+                  <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href='<c:url value="/view/list.jsp" />'>
                     <svg class="bi"><use xlink:href="#house-fill" /></svg>
                     Todo List
                   </a>

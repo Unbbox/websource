@@ -18,6 +18,7 @@ public class TodoDao {
 
     // JDBC 단계
     // 1. 드라이버 로드
+
     static {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
@@ -30,10 +31,10 @@ public class TodoDao {
     public Connection getConnection() {
         String url = "jdbc:oracle:thin:@localhost:1521:xe";
         String user = "c##test2";
-        String passwd = "test";
+        String password = "test";
 
         try {
-            con = DriverManager.getConnection(url, user, passwd);
+            con = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -43,6 +44,7 @@ public class TodoDao {
     // 3. sql 작업 = CRUD 메소드 구현
     // 전체조회 - Read
     public List<TodoDto> getList() {
+
         List<TodoDto> list = new ArrayList<>();
 
         con = getConnection();
@@ -64,7 +66,6 @@ public class TodoDao {
         } finally {
             close(con, pstmt, rs);
         }
-
         return list;
     }
 
@@ -94,45 +95,43 @@ public class TodoDao {
     }
 
     // 추가 - Create(insert)
-    public int insert(TodoDto insertDto) {
+    public int insert(TodoDto inserDto) {
         int result = 0;
 
         con = getConnection();
-        String sql = "INSERT INTO TODOTBL(NO, title, description) values(todo_seq.nextval, ?, ?)";
+        String sql = "INSERT INTO TODOTBL(NO,title,DESCRIPTION) values(todo_seq.nextval,?,?)";
         try {
             pstmt = con.prepareStatement(sql);
             // ? 해결
-            pstmt.setString(1, insertDto.getTitle());
-            pstmt.setString(2, insertDto.getDescription());
+            pstmt.setString(1, inserDto.getTitle());
+            pstmt.setString(2, inserDto.getDescription());
             result = pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close(con, pstmt);
         }
-
         return result;
     }
 
     // 수정 - Update
-    public int update(TodoDto updateDto) {
+    public int update(TodoDto inserDto) {
         int result = 0;
 
         con = getConnection();
-        String sql = "UPDATE TODOTBL SET COMPLETED=?, DESCRIPTION=? WHERE NO = ?";
+        String sql = "UPDATE TODOTBL SET COMPLETED = ?, DESCRIPTION = ? WHERE NO=?";
         try {
             pstmt = con.prepareStatement(sql);
             // ? 해결
-            pstmt.setBoolean(1, updateDto.isCompleted());
-            pstmt.setString(2, updateDto.getDescription());
-            pstmt.setInt(3, updateDto.getNo());
+            pstmt.setBoolean(1, inserDto.isCompleted());
+            pstmt.setString(2, inserDto.getDescription());
+            pstmt.setInt(3, inserDto.getNo());
             result = pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close(con, pstmt);
         }
-
         return result;
     }
 
@@ -152,10 +151,10 @@ public class TodoDao {
 
     public void close(Connection con, PreparedStatement pstmt) {
         try {
-            if (con != null)
-                con.close();
             if (pstmt != null)
                 pstmt.close();
+            if (con != null)
+                con.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
